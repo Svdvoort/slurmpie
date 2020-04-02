@@ -18,7 +18,7 @@ sys.setrecursionlimit(1500)
 
 # -- Project information -----------------------------------------------------
 
-project = 'slurmpy'
+project = 'slurmpie'
 copyright = '2020, Sebastian van der Voort'
 author = 'Sebastian van der Voort'
 

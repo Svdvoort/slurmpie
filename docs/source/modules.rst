@@ -1,7 +1,7 @@
-slurmpy
-=======
+slurmpie
+========
 
 .. toctree::
    :maxdepth: 4
 
-   slurmpy
+   slurmpie

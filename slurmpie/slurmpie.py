@@ -41,12 +41,12 @@ class Job:
             error_file (str, optional): File path for the slurm error file.
             gpus (dict, optional): Specify the gpu requirements for the job. See also gres.
             gres (dict, optional): Specify the gres requirements for the jobs.
-             See :func:`slurmpy.slurmpy.Job.gres` for the full specification.
+             See :func:`slurmpie.slurmpie.Job.gres` for the full specification.
             mail_address (str, optional): Mail address to send notifications to.
             mail_type (str, optional): Specify for which events a notification should be send.
              One of: NONE, BEGIN, END, FAIL, REQUEUE, ALL
             memory_size (str or int): Specify memory requirement for job.
-             See :func:`slurmpy.slurmpy.Job.memory_size` for the specification.
+             See :func:`slurmpie.slurmpie.Job.memory_size` for the specification.
             name (str, optional): The name of the job.
             nodes (int, optional): Number of nodes to use for the job.
             output_file (str, optional): File path for the slurm output file.
@@ -241,9 +241,9 @@ class Job:
         using the job id of the job.
 
         Example:
-            >>> from slurmpy import slurmpy
-            >>> job = slurmpy.Job("slurm_script.sh")
-            >>> dependent_job = slurmpy.Job("slurm_script_2.sh")
+            >>> from slurmpie import slurmpie
+            >>> job = slurmpie.Job("slurm_script.sh")
+            >>> dependent_job = slurmpie.Job("slurm_script_2.sh")
             >>> job_id = job.submit()
             >>> dependent_job.depends_on(job_id)
             >>> dependent_job.submit()

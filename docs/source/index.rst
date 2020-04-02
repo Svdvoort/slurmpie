@@ -1,8 +1,8 @@
-slurmpy
+slurmpie
 ===================================
 
-Slurmpy is a small module which makes it easier to interact with `slurm <https://slurm.schedmd.com/documentation.html>`_.
-The source code can be found at https://github.com/Svdvoort/slurmpy.
+slurmpie is a small module which makes it easier to interact with `slurm <https://slurm.schedmd.com/documentation.html>`_.
+The source code can be found at https://github.com/Svdvoort/slurmpie.
 
 Contents
 -----------
@@ -11,4 +11,4 @@ Contents
 
     install
     tutorial
-    slurmpy
+    slurmpie

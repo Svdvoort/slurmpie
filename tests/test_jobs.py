@@ -1,5 +1,5 @@
 import pytest
-from slurmpy import slurmpy
+from slurmpie import slurmpie
 import os
 
 FIXTURE_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_data",)
@@ -8,24 +8,24 @@ FIXTURE_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_da
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_init(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
-    job_2 = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
+    job_2 = slurmpie.Job(script_file)
     assert job._id != job_2._id
 
-    job = slurmpy.Job(script_file, mail_address="user@example.com")
+    job = slurmpie.Job(script_file, mail_address="user@example.com")
     assert job.mail_type == "ALL"
 
-    job = slurmpy.Job(script_file, mail_address="user@example.com", mail_type="FAIL")
+    job = slurmpie.Job(script_file, mail_address="user@example.com", mail_type="FAIL")
     assert job.mail_type == "FAIL"
 
-    job = slurmpy.Job(script_file, memory_size="50GB")
+    job = slurmpie.Job(script_file, memory_size="50GB")
     assert job.memory_size == "50G"
 
 
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_argument_list_formatting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     assert job._format_argument_list("", "") == ""
     assert job._format_argument_list("", "new_value") == "new_value"
@@ -38,7 +38,7 @@ def test_argument_list_formatting(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_gres_formatting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     assert job._format_gres({}) == ""
     assert job._format_gres({"gpu": 1}) == "gpu:1"
@@ -58,35 +58,35 @@ def test_gres_formatting(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_gres_settting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     job.gres = {}
     assert job.gres == ""
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gres = {"gpu": 1}
     assert job.gres == "gpu:1"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gres = {"gpu": 1, "ssd": 3}
     assert job.gres == "gpu:1,ssd:3"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gres = {"gpu": {"Titan": 3, "k40": 2}}
     assert job.gres == "gpu:k40:2,gpu:Titan:3"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gres = {"gpu": {"Titan": 3, "k40": 2}, "ssd": 3}
     assert job.gres == "gpu:k40:2,gpu:Titan:3,ssd:3"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gres = {"gpu": {"Titan": 3, "k40": 2}, "ssd": {"fast": 2, "slow": 1}, "cpu": 15}
     assert job.gres == "cpu:15,gpu:k40:2,gpu:Titan:3,ssd:fast:2,ssd:slow:1"
 
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_memory_formatting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     memory_size, memory_units = job._format_memory_size("50M")
     assert memory_size == "50"
@@ -108,7 +108,7 @@ def test_memory_formatting(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_memory_setting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     assert job.memory_size == ""
     assert job.memory_units is None
@@ -127,29 +127,29 @@ def test_memory_setting(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_job_dependencies(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     assert job.dependencies == ""
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.depends_on("40904")
     assert job.dependencies == "after:40904"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.depends_on("9040294", "afterok")
     assert job.dependencies == "afterok:9040294"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.depends_on(["1001", "9040294"], "afterok")
     assert job.dependencies == "afterok:1001:9040294"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.depends_on(["1001", "9040294"], "afterok")
     job.depends_on("123", "afternotok")
 
     assert job.dependencies == "afterok:1001:9040294,afternotok:123"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.depends_on(["1001", "9040294"], "afterok")
     job.depends_on("123", "afternotok")
     job.depends_on("987", "afterok")
@@ -160,18 +160,18 @@ def test_job_dependencies(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_array_setting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     assert job.array == ""
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.array = [5, 9, 10]
     assert job.array == "5,9,10"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.array = ["1", "5", "101"]
     assert job.array == "1,5,101"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.array = "0-15%4"
     assert job.array == "0-15%4"
 
@@ -179,14 +179,14 @@ def test_array_setting(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_gpu_setting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     assert job.gpus == ""
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gpus = {'Titan': 5}
     assert job.gpus == "Titan:5"
 
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
     job.gpus = {'Titan': 5, "k40": "3"}
     assert job.gpus == "k40:3,Titan:5"
 
@@ -194,7 +194,7 @@ def test_gpu_setting(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_empty_attributes(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     assert job.attribute_is_empty("")
     assert job.attribute_is_empty(-1)
@@ -211,7 +211,7 @@ def test_empty_attributes(datafiles):
 @pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
 def test_sbatch_formatting(datafiles):
     script_file = str(datafiles)
-    job = slurmpy.Job(script_file)
+    job = slurmpie.Job(script_file)
 
     sbatch_command = job._format_sbatch_command()
     assert sbatch_command == ["sbatch", "--parsable", script_file]
@@ -225,10 +225,10 @@ def test_sbatch_formatting(datafiles):
 
     assert job._format_sbatch_command() == ["sbatch", "--parsable", "--gres=gpu:k40:2,gpu:Titan:1", "--mem=50", script_file]
 
-    job = slurmpy.Job(script_file, memory_size="100GB", name="test_job")
+    job = slurmpie.Job(script_file, memory_size="100GB", name="test_job")
     assert job._format_sbatch_command() == ["sbatch", "--parsable", "--mem=100G", "--job-name=test_job", script_file]
 
-    job = slurmpy.Job(script_file, array=[1, 2, 3], cpus_per_task=5, error_file="/tmp/error.log", gpus={'Titan':8},
+    job = slurmpie.Job(script_file, array=[1, 2, 3], cpus_per_task=5, error_file="/tmp/error.log", gpus={'Titan':8},
     gres={'cpus': {'haskell':2, 'lake': "3"}}, mail_address="user@example.com", mail_type="FAIL", memory_size="10KB",
     name="test_job", nodes=4, output_file="/tmp/output.log", partition="test_partition", tasks=7, time="01:33",
     workdir="/tmp/workdir")

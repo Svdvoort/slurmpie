@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="slurmpy",
+    name="slurmpie",
     version="0.1.0",
     author="Sebastian van der Voort",
     author_email="svoort25@gmail.com",
     description="Package to interact with SLURM",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/svdvoort/slurmpy",
+    url="https://github.com/svdvoort/slurmpie",
     packages=setuptools.find_packages(),
     install_requires=["numpy>=1.13.0"],
     classifiers=[

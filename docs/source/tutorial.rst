@@ -4,12 +4,12 @@ Tutorial
 Job submission
 ----------------
 
-The most basic usage of slurmpy is to submit a single job.
+The most basic usage of slurmpie is to submit a single job.
 Lets say we have a script ``slurm_script.sh`` that we want to submit.
-Using ``slurmpy`` this is as simple as:
+Using ``slurmpie`` this is as simple as:
 
->>> from slurmpy import slurmpy
->>> job = slurmpy.Job("slurm_script.sh")
+>>> from slurmpie import slurmpie
+>>> job = slurmpie.Job("slurm_script.sh")
 >>> job.submit()
 
 Job submission with arguments
@@ -22,14 +22,14 @@ after the creation.
 
 For example:
 
->>> from slurmpy import slurmpy
->>> job = slurmpy.Job("slurm_script.sh", name="my_slurm_job")
+>>> from slurmpie import slurmpie
+>>> job = slurmpie.Job("slurm_script.sh", name="my_slurm_job")
 >>> job.memory_size = "15GB"
 >>> job.partition = "gpu"
 >>> job.submit()
 
 This will submit a job with the job name ``my_slurm_job`` and with 15GB of memory requested on the `gpu` partition.
-For a full overview of the slurm parameters that can be set, see :py:meth:`slurmpy.slurmpy.Job.__init__`
+For a full overview of the slurm parameters that can be set, see :py:meth:`slurmpie.slurmpie.Job.__init__`
 
 Job pipeline
 ----------------------------
@@ -39,10 +39,10 @@ For this, you can use a pipeline.
 
 The simplest pipeline would be:
 
->>> from slurmpy import slurmpy
->>> job = slurmpy.Job("slurm_script.sh")
->>> followup_job = slurmpy.Job("slurm_followup_script.sh")
->>> pipeline = slurmpy.Pipeline()
+>>> from slurmpie import slurmpie
+>>> job = slurmpie.Job("slurm_script.sh")
+>>> followup_job = slurmpie.Job("slurm_followup_script.sh")
+>>> pipeline = slurmpie.Pipeline()
 >>> pipeline.add(job)
 >>> pipeline.add(followup_job)
 >>> pipeline.submit()
@@ -56,20 +56,20 @@ Parsing arguments
 To avoid having to repeat the same parameters to each individual job, they can be parsed to the pipeline directly.
 For example, instead of:
 
->>> from slurmpy import slurmpy
->>> job = slurmpy.Job("slurm_script.sh", partition="gpu")
->>> followup_job = slurmpy.Job("slurm_followup_script.sh", partition="gpu")
->>> pipeline = slurmpy.Pipeline()
+>>> from slurmpie import slurmpie
+>>> job = slurmpie.Job("slurm_script.sh", partition="gpu")
+>>> followup_job = slurmpie.Job("slurm_followup_script.sh", partition="gpu")
+>>> pipeline = slurmpie.Pipeline()
 >>> pipeline.add(job)
 >>> pipeline.add(followup_job)
 >>> pipeline.submit()
 
 you can do this:
 
->>> from slurmpy import slurmpy
->>> job = slurmpy.Job("slurm_script.sh")
->>> followup_job = slurmpy.Job("slurm_followup_script.sh")
->>> pipeline = slurmpy.Pipeline(partition="gpu")
+>>> from slurmpie import slurmpie
+>>> job = slurmpie.Job("slurm_script.sh")
+>>> followup_job = slurmpie.Job("slurm_followup_script.sh")
+>>> pipeline = slurmpie.Pipeline(partition="gpu")
 >>> pipeline.add(job)
 >>> pipeline.add(followup_job)
 >>> pipeline.submit()
@@ -78,11 +78,11 @@ and all the jobs inthis pipeline wil be submitted to the `gpu` partition.
 Attributes that have been set for the job already will not be overwitten.
 For example:
 
->>> from slurmpy import slurmpy
->>> job_1 = slurmpy.Job("slurm_script_1.sh")
->>> job_2 = slurmpy.Job("slurm_script_2.sh", partition="gpu")
->>> job_3 = slurmpy.Job("slurm_script_3.sh")
->>> pipeline = slurmpy.Pipeline(partition="cpu")
+>>> from slurmpie import slurmpie
+>>> job_1 = slurmpie.Job("slurm_script_1.sh")
+>>> job_2 = slurmpie.Job("slurm_script_2.sh", partition="gpu")
+>>> job_3 = slurmpie.Job("slurm_script_3.sh")
+>>> pipeline = slurmpie.Pipeline(partition="cpu")
 >>> pipeline.add(job_1)
 >>> pipeline.add(job_2)
 >>> pipeline.add(job_3)
@@ -102,9 +102,9 @@ To allow for more complex behaviour one can specify the parent job and the depen
 
 For example, lets start with a simple pipeline:
 
->>> from slurmpy import slurmpy
->>> job_1 = slurmpy.Job("slurm_script_1.sh")
->>> job_2 = slurmpy.Job("slurm_script_2.sh")
+>>> from slurmpie import slurmpie
+>>> job_1 = slurmpie.Job("slurm_script_1.sh")
+>>> job_2 = slurmpie.Job("slurm_script_2.sh")
 >>> pipeline.add(job_1)
 >>> pipeline.add(job_2)
 
@@ -118,7 +118,7 @@ If we would submit this pipeline, ``job_3`` will only run if ``job_1`` executed 
 
 Now, we add another job that we want to start at the same time as ``job_1``
 
->>> job_4 = slurmpy.Job("slurm_script_4.sh")
+>>> job_4 = slurmpie.Job("slurm_script_4.sh")
 >>> pipeline.add_start_job(job_4)
 
 If we would the submit the pipeline as it currently is ``job_1`` and ```job_4`` would start immediatly.
@@ -131,9 +131,9 @@ If it fails we have one other job that we want to start.
 
 First lets create the jobs:
 
->>> job_5 = slurmpy.Job("slurm_script_5.sh")
->>> job_6 = slurmpy.Job("slurm_script_6.sh")
->>> job_7 = slurmpy.Job("slurm_script_7.sh")
+>>> job_5 = slurmpie.Job("slurm_script_5.sh")
+>>> job_6 = slurmpie.Job("slurm_script_6.sh")
+>>> job_7 = slurmpie.Job("slurm_script_7.sh")
 
 Now we add them to the pipeline:
 
@@ -146,6 +146,6 @@ and finally we want the pipeline to start:
 ``job_5`` and ``job_6`` will now start if ``job_4`` finished successfully.
 Otherwise, ``job_7`` will start.
 
-For the full functionality, please see :py:class:`slurmpy.slurmpy.Pipeline`.
+For the full functionality, please see :py:class:`slurmpie.slurmpie.Pipeline`.
 For the different dependency types please check out the SLURM documentation: https://slurm.schedmd.com/sbatch.html
 

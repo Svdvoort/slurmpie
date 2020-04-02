@@ -9,8 +9,8 @@ Requirements
 
 pip
 ---------------------
-``slurmpy`` can be installed using pip:
+``slurmpie`` can be installed using pip:
 
 .. code-block:: sh
 
-    pip install slurmpy
+    pip install slurmpie

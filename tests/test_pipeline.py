@@ -1,20 +1,20 @@
-from slurmpy import slurmpy
+from slurmpie import slurmpie
 import pytest
 
 
 def test_init():
-    slurmpy.Pipeline()
+    slurmpie.Pipeline()
 
-    pipeline = slurmpy.Pipeline(name="test_pipeline")
+    pipeline = slurmpie.Pipeline(name="test_pipeline")
     assert pipeline.job_args == {"name": "test_pipeline"}
 
 
 def test_job_adding():
-    pipeline = slurmpy.Pipeline()
+    pipeline = slurmpie.Pipeline()
 
-    job = slurmpy.Job("none")
+    job = slurmpie.Job("none")
     pipeline.add(job)
-    second_job = slurmpy.Job("none")
+    second_job = slurmpie.Job("none")
     pipeline.add(second_job)
 
     assert isinstance(pipeline.pipeline_jobs, list)
@@ -23,8 +23,8 @@ def test_job_adding():
 
 
 def test_job_adding_with_job_arguments():
-    job = slurmpy.Job("none")
-    pipeline = slurmpy.Pipeline(name="test_pipeline", memory_size="10GB")
+    job = slurmpie.Job("none")
+    pipeline = slurmpie.Pipeline(name="test_pipeline", memory_size="10GB")
 
     pipeline.add(job)
     pipeline.add(job)
@@ -33,7 +33,7 @@ def test_job_adding_with_job_arguments():
         assert job.name == "test_pipeline"
         assert job.memory_size == "10G"
 
-    job_with_args = slurmpy.Job("none", name="final_job", memory_size="15MB")
+    job_with_args = slurmpie.Job("none", name="final_job", memory_size="15MB")
     pipeline.add(job_with_args)
 
     for job in pipeline.pipeline_jobs[:-1]:
@@ -45,15 +45,15 @@ def test_job_adding_with_job_arguments():
 
 
 def test_start_job_adding():
-    job = slurmpy.Job("none")
-    pipeline = slurmpy.Pipeline()
+    job = slurmpie.Job("none")
+    pipeline = slurmpie.Pipeline()
 
     pipeline.add(job)
 
-    success_job = slurmpy.Job("none")
+    success_job = slurmpie.Job("none")
     pipeline.add(success_job)
 
-    second_start_job = slurmpy.Job("none")
+    second_start_job = slurmpie.Job("none")
     pipeline.add_start_job(second_start_job)
 
     assert pipeline._job_graph == {
@@ -63,13 +63,13 @@ def test_start_job_adding():
 
 
 def test_complex_job_adding():
-    job = slurmpy.Job("none")
-    pipeline = slurmpy.Pipeline()
+    job = slurmpie.Job("none")
+    pipeline = slurmpie.Pipeline()
 
     pipeline.add(job)
     assert pipeline._job_graph == {-1: [job]}
 
-    second_job = slurmpy.Job("none")
+    second_job = slurmpie.Job("none")
     pipeline.add({"afterok": [second_job]})
 
     assert isinstance(pipeline.pipeline_jobs, list)
@@ -77,7 +77,7 @@ def test_complex_job_adding():
 
     assert pipeline._job_graph == {-1: [job], second_job: {"afterok": [job._id]}}
 
-    fail_job = slurmpy.Job("none")
+    fail_job = slurmpie.Job("none")
     pipeline.add({"afternotok": [fail_job]}, job)
 
     assert pipeline._job_graph == {
@@ -86,7 +86,7 @@ def test_complex_job_adding():
         fail_job: {"afternotok": [job._id]}
     }
 
-    second_succes_job = slurmpy.Job("none")
+    second_succes_job = slurmpie.Job("none")
     pipeline.add({"afterok": [second_succes_job]}, job)
     assert pipeline._job_graph == {
         -1: [job],
@@ -95,7 +95,7 @@ def test_complex_job_adding():
         second_succes_job: {"afterok": [job._id]}
     }
 
-    final_job = slurmpy.Job("none")
+    final_job = slurmpie.Job("none")
     pipeline.add(final_job)
 
     assert pipeline._job_graph == {
@@ -128,11 +128,11 @@ def test_complex_job_adding():
 # These tests only work when slurm is installed
 
 # def test_submit():
-#     pipeline = slurmpy.Pipeline()
+#     pipeline = slurmpie.Pipeline()
 
-#     job = slurmpy.Job("none")
+#     job = slurmpie.Job("none")
 #     pipeline.add(job)
-#     second_job = slurmpy.Job("none")
+#     second_job = slurmpie.Job("none")
 #     pipeline.add(second_job)
 
 #     pipeline.submit()
@@ -140,12 +140,12 @@ def test_complex_job_adding():
 
 # def test_submit_error():
 #     with pytest.raises(RecursionError):
-#         pipeline = slurmpy.Pipeline()
+#         pipeline = slurmpie.Pipeline()
 
-#         job = slurmpy.Job("none")
+#         job = slurmpie.Job("none")
 #         pipeline.add(job)
-#         second_job = slurmpy.Job("none")
-#         third_job = slurmpy.Job("none")
+#         second_job = slurmpie.Job("none")
+#         third_job = slurmpie.Job("none")
 #         pipeline.add(second_job, third_job)
 #         pipeline.add(third_job, second_job)
 
