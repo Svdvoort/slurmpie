@@ -233,7 +233,7 @@ class Job:
             self._gres, self._format_gres(gres_spec)
         )
 
-    def depends_on(self, job_id: Union[list, str], dependency_type="after"):
+    def depends_on(self, job_id: Union[list, str], dependency_type="afterany"):
         """
         Sets the dependencies of this job based on the SLURM job number.
 
@@ -253,7 +253,7 @@ class Job:
         Args:
             job_id (list or str): The job id (or multiple ids as a list) on which the job depends.
             dependency_type (str, optional): The dependency type of the job (see
-             sbatch documentation). Defaults to "after".
+             sbatch documentation). Defaults to "afterany".
         """
 
         if isinstance(job_id, list):
@@ -463,7 +463,7 @@ class Pipeline:
         # We accept a single job as ease-of-use for the user
         # Convert it here to make the operation consistent
         if isinstance(jobs, Job):
-            jobs = {"after": [jobs]}
+            jobs = {"afterany": [jobs]}
 
         if parent_job is not None:
             parent_id = parent_job._id
