@@ -133,7 +133,7 @@ def test_job_dependencies(datafiles):
 
     job = slurmpie.Job(script_file)
     job.depends_on("40904")
-    assert job.dependencies == "after:40904"
+    assert job.dependencies == "afterany:40904"
 
     job = slurmpie.Job(script_file)
     job.depends_on("9040294", "afterok")

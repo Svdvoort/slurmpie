@@ -19,7 +19,7 @@ def test_job_adding():
 
     assert isinstance(pipeline.pipeline_jobs, list)
     assert len(pipeline.pipeline_jobs) == 2
-    assert pipeline._job_graph == {-1: [job], second_job: {"after": [job._id]}}
+    assert pipeline._job_graph == {-1: [job], second_job: {"afterany": [job._id]}}
 
 
 def test_job_adding_with_job_arguments():
@@ -58,7 +58,7 @@ def test_start_job_adding():
 
     assert pipeline._job_graph == {
         -1: [job, second_start_job],
-        success_job: {"after": [job._id]},
+        success_job: {"afterany": [job._id]},
     }
 
 
@@ -103,7 +103,7 @@ def test_complex_job_adding():
         second_job: {"afterok": [job._id]},
         fail_job: {"afternotok": [job._id]},
         second_succes_job: {"afterok": [job._id]},
-        final_job: {"after": [second_succes_job._id]}
+        final_job: {"afterany": [second_succes_job._id]}
     }
 
     pipeline.add(fail_job, second_job)
@@ -111,18 +111,18 @@ def test_complex_job_adding():
     assert pipeline._job_graph == {
         -1: [job],
         second_job: {"afterok": [job._id]},
-        fail_job: {"afternotok": [job._id], "after": [second_job._id]},
+        fail_job: {"afternotok": [job._id], "afterany": [second_job._id]},
         second_succes_job: {"afterok": [job._id]},
-        final_job: {"after": [second_succes_job._id]}
+        final_job: {"afterany": [second_succes_job._id]}
     }
 
     pipeline.add(fail_job, second_succes_job)
     assert pipeline._job_graph == {
         -1: [job],
         second_job: {"afterok": [job._id]},
-        fail_job: {"afternotok": [job._id], "after": [second_job._id, second_succes_job._id]},
+        fail_job: {"afternotok": [job._id], "afterany": [second_job._id, second_succes_job._id]},
         second_succes_job: {"afterok": [job._id]},
-        final_job: {"after": [second_succes_job._id]}
+        final_job: {"afterany": [second_succes_job._id]}
     }
 
 # These tests only work when slurm is installed
