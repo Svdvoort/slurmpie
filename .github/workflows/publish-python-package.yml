@@ -36,6 +36,7 @@ jobs:
     - name: Perform unit tests and generate coverage report
       run: |
         pip install pytest
+        pip install pytest-cov
         pip install pytest-datafiles
         pytest
     - name: Install dependencies for building

@@ -33,7 +33,7 @@ jobs:
         pip install pytest
         pip install pytest-cov
         pip install pytest-datafiles
-        pytest --cov=slurmpy/ --cov-report=xml
+        pytest
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
