@@ -1,0 +1,468 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>slurmpy package &mdash; slurmpy 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> slurmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">slurmpy package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">slurmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>slurmpy package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/slurmpy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-slurmpy.slurmpy">
+<span id="slurmpy-package"></span><h1>slurmpy package<a class="headerlink" href="#module-slurmpy.slurmpy" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="slurmpy.slurmpy.Job">
+<em class="property">class </em><code class="sig-prename descclassname">slurmpy.slurmpy.</code><code class="sig-name descname">Job</code><span class="sig-paren">(</span><em class="sig-param">script</em>, <em class="sig-param">array=[]</em>, <em class="sig-param">cpus_per_task=-1</em>, <em class="sig-param">error_file=''</em>, <em class="sig-param">gpus={}</em>, <em class="sig-param">gres={}</em>, <em class="sig-param">mail_address=''</em>, <em class="sig-param">mail_type=''</em>, <em class="sig-param">memory_size=''</em>, <em class="sig-param">name=''</em>, <em class="sig-param">nodes=-1</em>, <em class="sig-param">output_file=''</em>, <em class="sig-param">partition=''</em>, <em class="sig-param">tasks=-1</em>, <em class="sig-param">time=''</em>, <em class="sig-param">workdir=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">script</em>, <em class="sig-param">array=[]</em>, <em class="sig-param">cpus_per_task=-1</em>, <em class="sig-param">error_file=''</em>, <em class="sig-param">gpus={}</em>, <em class="sig-param">gres={}</em>, <em class="sig-param">mail_address=''</em>, <em class="sig-param">mail_type=''</em>, <em class="sig-param">memory_size=''</em>, <em class="sig-param">name=''</em>, <em class="sig-param">nodes=-1</em>, <em class="sig-param">output_file=''</em>, <em class="sig-param">partition=''</em>, <em class="sig-param">tasks=-1</em>, <em class="sig-param">time=''</em>, <em class="sig-param">workdir=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Job.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Job.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>A SLURM job which is submitted using sbatch</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>script</strong> (<em>str</em>) – The script file or command which the job should execute.</p></li>
+<li><p><strong>array</strong> (<em>list</em><em> or </em><em>str</em><em>, </em><em>optional</em>) – Optional array parameters to launch multiple jobs.
+When a list is provided a job will be executed with each parameters in the list.
+A string can be provided to allow array construction in the SLURM format.</p></li>
+<li><p><strong>cpus_per_task</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of cpus for each task.</p></li>
+<li><p><strong>error_file</strong> (<em>str</em><em>, </em><em>optional</em>) – File path for the slurm error file.</p></li>
+<li><p><strong>gpus</strong> (<em>dict</em><em>, </em><em>optional</em>) – Specify the gpu requirements for the job. See also gres.</p></li>
+<li><p><strong>gres</strong> (<em>dict</em><em>, </em><em>optional</em>) – Specify the gres requirements for the jobs.
+See <a class="reference internal" href="#slurmpy.slurmpy.Job.gres" title="slurmpy.slurmpy.Job.gres"><code class="xref py py-func docutils literal notranslate"><span class="pre">slurmpy.slurmpy.Job.gres()</span></code></a> for the full specification.</p></li>
+<li><p><strong>mail_address</strong> (<em>str</em><em>, </em><em>optional</em>) – Mail address to send notifications to.</p></li>
+<li><p><strong>mail_type</strong> (<em>str</em><em>, </em><em>optional</em>) – Specify for which events a notification should be send.
+One of: NONE, BEGIN, END, FAIL, REQUEUE, ALL</p></li>
+<li><p><strong>memory_size</strong> (<em>str</em><em> or </em><em>int</em>) – Specify memory requirement for job.
+See <a class="reference internal" href="#slurmpy.slurmpy.Job.memory_size" title="slurmpy.slurmpy.Job.memory_size"><code class="xref py py-func docutils literal notranslate"><span class="pre">slurmpy.slurmpy.Job.memory_size()</span></code></a> for the specification.</p></li>
+<li><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – The name of the job.</p></li>
+<li><p><strong>nodes</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of nodes to use for the job.</p></li>
+<li><p><strong>output_file</strong> (<em>str</em><em>, </em><em>optional</em>) – File path for the slurm output file.</p></li>
+<li><p><strong>partition</strong> (<em>str</em><em>, </em><em>optional</em>) – Name of the partition to which to submit the job.</p></li>
+<li><p><strong>tasks</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of tasks.</p></li>
+<li><p><strong>time</strong> (<em>str</em><em>, </em><em>optional</em>) – The expected/maximum wall time for the job.
+Needs to be specified in the SLURM format, one of:
+“minutes”, “minutes:seconds”, “hours:minutes:seconds”,
+“days-hours”, “days-hours:minutes” and “days-hours:minutes:seconds”</p></li>
+<li><p><strong>workdir</strong> (<em>str</em><em>, </em><em>optional</em>) – The directory to change to at the start of job execution.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>RuntimeError</strong> – If the job could not be successfully executed</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.array">
+<em class="property">property </em><code class="sig-name descname">array</code><a class="headerlink" href="#slurmpy.slurmpy.Job.array" title="Permalink to this definition">¶</a></dt>
+<dd><p>The values of the job array.</p>
+<p>SLURM supports submitting the same script with different parameters.
+Set the array either as a list of values or as a string.
+When specified as string it is directly parsed to SLURM, thus the string
+should already be in the SLURM format.
+When a list is specified it will parse all these values to the array
+setting.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.attribute_is_empty">
+<em class="property">static </em><code class="sig-name descname">attribute_is_empty</code><span class="sig-paren">(</span><em class="sig-param">attribute_value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Job.attribute_is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Job.attribute_is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks whether an attribute is empty</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>attribute_value</strong> (<em>str</em><em>, </em><em>numbers.Number</em><em>, </em><em>dict</em><em>, or </em><em>list</em><em>]</em>) – The value to check</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>[description]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>[type]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.depends_on">
+<code class="sig-name descname">depends_on</code><span class="sig-paren">(</span><em class="sig-param">job_id</em>, <em class="sig-param">dependency_type='after'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Job.depends_on"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Job.depends_on" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the dependencies of this job based on the SLURM job number.</p>
+<p>When submitting a job that depends on another job this can be set
+using the job id of the job.</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependent_job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_2.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_id</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependent_job</span><span class="o">.</span><span class="n">depends_on</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dependent_job</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The <cite>dependent_job</cite> will now only start running when <cite>job</cite> has finished.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>job_id</strong> (<em>list</em><em> or </em><em>str</em>) – The job id (or multiple ids as a list) on which the job depends.</p></li>
+<li><p><strong>dependency_type</strong> (<em>str</em><em>, </em><em>optional</em>) – The dependency type of the job (see
+sbatch documentation). Defaults to “after”.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.gpus">
+<em class="property">property </em><code class="sig-name descname">gpus</code><a class="headerlink" href="#slurmpy.slurmpy.Job.gpus" title="Permalink to this definition">¶</a></dt>
+<dd><p>The gpus to request from the SLURM jobs.</p>
+<p>Just like the gres resources, one can request the gpu resources for the job.
+This is configuration dependent, so make sure your cluster supports this.
+The configuration has to be applied in the same way as for gres.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.gres">
+<em class="property">property </em><code class="sig-name descname">gres</code><a class="headerlink" href="#slurmpy.slurmpy.Job.gres" title="Permalink to this definition">¶</a></dt>
+<dd><p>The gres resources to request for the job.</p>
+<p>The gres resources should be formatted as a (possibly nested) dict.
+For example: <cite>job.gres = {“gpu”:1}</cite> requests one gpu from gres.
+<cite>jobs.gres = {“gpu”: {“k40”: 1, “k80”: 1}}</cite> requests one k40 gpu
+and one k80 gpu.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.memory_size">
+<em class="property">property </em><code class="sig-name descname">memory_size</code><a class="headerlink" href="#slurmpy.slurmpy.Job.memory_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>The memory size to request for the job.</p>
+<p>Memory size can be set either as a float, then the default memory units
+for the SLURM configuration is used.
+Otherwise, the memory size can specified as a string, including the units.
+For example <cite>“15GB”</cite> will set the request memory to 15 GB.
+Supported memory units are K/KB for kilobyte, M/MB for megabyte
+G/GB for gigabyte and T/TB for terabyte</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.memory_units">
+<em class="property">property </em><code class="sig-name descname">memory_units</code><a class="headerlink" href="#slurmpy.slurmpy.Job.memory_units" title="Permalink to this definition">¶</a></dt>
+<dd><p>The current memory units</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Job.submit">
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Job.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Job.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit the job using <cite>sbatch</cite></p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RuntimeError</strong> – If <cite>sbatch</cite> returns an error</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The job number of the submitted job if successful</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="slurmpy.slurmpy.Pipeline">
+<em class="property">class </em><code class="sig-prename descclassname">slurmpy.slurmpy.</code><code class="sig-name descname">Pipeline</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Pipeline"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Pipeline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="rubric">Examples</p>
+<p>Simple pipeline in which jobs are added consecutively.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+
+<span class="n">pipeline</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">()</span>
+<span class="n">start_job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">)</span>
+<span class="n">dependent_job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_2.sh&quot;</span><span class="p">)</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">start_job</span><span class="p">)</span>
+<span class="c1"># This job will wait for start_job to finish</span>
+<span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">dependent_job</span><span class="p">)</span>
+
+<span class="n">pipeline</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div></blockquote>
+<dl class="method">
+<dt id="slurmpy.slurmpy.Pipeline.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Pipeline.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Pipeline.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pipeline to be constructed with multiple jobs depending on each other.</p>
+<p>This pipeline makes it easier to create multiple job that depend on each
+other and submit them all at ones. Jobs can be added to the pipeline
+with different dependencies and the pipeline can then be submitted
+as a whole, which will take care off the dependencies between the
+different jobs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>kwargs</strong> – Arguments that will be specified for each job,
+if that argument has not been set for the job already.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Pipeline.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">jobs</em>, <em class="sig-param">parent_job=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Pipeline.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Pipeline.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add dependency jobs to the pipeline.</p>
+<p>Jobs can keep being added, in which case they are execute consecutively.
+Otherwise, a dict can be specified with the job dependency type and list
+of the jobs with that dependency type.
+A parent job can be set if the jobs depend on a certain parent job.
+Otherwise the jobs will just be added to the end of the list and are
+executed consecutively.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>jobs</strong> (<a class="reference internal" href="#slurmpy.slurmpy.Job" title="slurmpy.slurmpy.Job"><em>Job</em></a><em> or </em><em>dict</em>) – The jobs to add to the pipeline. Either a single job
+which will be added to the end of the pipeline, or a dict specifying the
+dependency type and a list with the dependent jobs</p></li>
+<li><p><strong>parent_job</strong> (<a class="reference internal" href="#slurmpy.slurmpy.Job" title="slurmpy.slurmpy.Job"><em>Job</em></a><em>, </em><em>optional</em>) – If not None, will use this as the job on which the
+<cite>jobs</cite> are dependent. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Pipeline.add_start_job">
+<code class="sig-name descname">add_start_job</code><span class="sig-paren">(</span><em class="sig-param">jobs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Pipeline.add_start_job"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Pipeline.add_start_job" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a job to the start of the pipeline</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>jobs</strong> (<a class="reference internal" href="#slurmpy.slurmpy.Job" title="slurmpy.slurmpy.Job"><em>Job</em></a><em> or </em><em>list</em>) – A single job or list of jobs that should be
+executed at the start of the pipeline.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="slurmpy.slurmpy.Pipeline.submit">
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/slurmpy/slurmpy.html#Pipeline.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#slurmpy.slurmpy.Pipeline.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit all the jobs in the pipeline.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>RecursionError</strong> – If the pipeline cannot be properly executed because of
+    misformatted dependencies.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Sebastian van der Voort
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

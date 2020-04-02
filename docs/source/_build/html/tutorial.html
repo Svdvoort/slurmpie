@@ -1,0 +1,349 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Tutorial &mdash; slurmpy 0.1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="slurmpy package" href="slurmpy.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> slurmpy
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#job-submission">Job submission</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-submission-with-arguments">Job submission with arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#job-pipeline">Job pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parsing-arguments">Parsing arguments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#complex-pipelines">Complex pipelines</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="slurmpy.html">slurmpy package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">slurmpy</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Tutorial</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/tutorial.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="job-submission">
+<h2>Job submission<a class="headerlink" href="#job-submission" title="Permalink to this headline">¶</a></h2>
+<p>The most basic usage of slurmpy is to submit a single job.
+Lets say we have a script <code class="docutils literal notranslate"><span class="pre">slurm_script.sh</span></code> that we want to submit.
+Using <code class="docutils literal notranslate"><span class="pre">slurmpy</span></code> this is as simple as:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="job-submission-with-arguments">
+<h2>Job submission with arguments<a class="headerlink" href="#job-submission-with-arguments" title="Permalink to this headline">¶</a></h2>
+<p>Often one want to set certain parameters for the job such as the partition,
+requested memory and wall time.
+These parameters can be set at the creation of the job, or set as attributes
+after the creation.</p>
+<p>For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_slurm_job&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span><span class="o">.</span><span class="n">memory_size</span> <span class="o">=</span> <span class="s2">&quot;15GB&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span><span class="o">.</span><span class="n">partition</span> <span class="o">=</span> <span class="s2">&quot;gpu&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will submit a job with the job name <code class="docutils literal notranslate"><span class="pre">my_slurm_job</span></code> and with 15GB of memory requested on the <cite>gpu</cite> partition.
+For a full overview of the slurm parameters that can be set, see <a class="reference internal" href="slurmpy.html#slurmpy.slurmpy.Job.__init__" title="slurmpy.slurmpy.Job.__init__"><code class="xref py py-meth docutils literal notranslate"><span class="pre">slurmpy.slurmpy.Job.__init__()</span></code></a></p>
+</div>
+<div class="section" id="job-pipeline">
+<h2>Job pipeline<a class="headerlink" href="#job-pipeline" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes multiple job depend on each other and one cannot start without the other being finished.
+For this, you can use a pipeline.</p>
+<p>The simplest pipeline would be:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">followup_job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_followup_script.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">followup_job</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will submit <code class="docutils literal notranslate"><span class="pre">slurm_script.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">slurm_followup_script.sh</span></code>, but <code class="docutils literal notranslate"><span class="pre">slurm_followup_script.sh</span></code>
+will only start running once <code class="docutils literal notranslate"><span class="pre">slurm_script.sh</span></code> is finished.</p>
+<div class="section" id="parsing-arguments">
+<h3>Parsing arguments<a class="headerlink" href="#parsing-arguments" title="Permalink to this headline">¶</a></h3>
+<p>To avoid having to repeat the same parameters to each individual job, they can be parsed to the pipeline directly.
+For example, instead of:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">followup_job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_followup_script.sh&quot;</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">followup_job</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>you can do this:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">followup_job</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_followup_script.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">partition</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">followup_job</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>and all the jobs inthis pipeline wil be submitted to the <cite>gpu</cite> partition.
+Attributes that have been set for the job already will not be overwitten.
+For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_1</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_1.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_2</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_2.sh&quot;</span><span class="p">,</span> <span class="n">partition</span><span class="o">=</span><span class="s2">&quot;gpu&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_3</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_3.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Pipeline</span><span class="p">(</span><span class="n">partition</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>will submit <code class="docutils literal notranslate"><span class="pre">slurm_script_1.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">slurm_script_3.sh</span></code> to the <cite>cpu</cite> partition,
+but <code class="docutils literal notranslate"><span class="pre">slurm_script_2.sh</span></code> wil be submitted to the gpu partition, as has been specified for the job.</p>
+</div>
+<div class="section" id="complex-pipelines">
+<h3>Complex pipelines<a class="headerlink" href="#complex-pipelines" title="Permalink to this headline">¶</a></h3>
+<p>By default the jobs in the pipeline will run in the same order as they have been added to the pipeline.
+So in the example above first job_1 will run, once that is finished job_2 will run and once that is finished job_3.
+It does not matter whether any of the jobs failed.</p>
+<p>To allow for more complex behaviour one can specify the parent job and the dependency type of each job.</p>
+<p>For example, lets start with a simple pipeline:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">slurmpy</span> <span class="kn">import</span> <span class="n">slurmpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_1</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_1.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_2</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_2.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">job_2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we would submit this pipeline, it will run <code class="docutils literal notranslate"><span class="pre">job_2</span></code> as soon as <code class="docutils literal notranslate"><span class="pre">job_1</span></code> is finished.
+Now, we add a job that will only run if job_1 runs successfully:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">job_3</span> <span class="o">=</span> <span class="n">slurmy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_3.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s2">&quot;afterok&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">job_3</span><span class="p">]},</span> <span class="n">parent_job</span><span class="o">=</span><span class="n">job_1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we would submit this pipeline, <code class="docutils literal notranslate"><span class="pre">job_3</span></code> will only run if <code class="docutils literal notranslate"><span class="pre">job_1</span></code> executed successfully.</p>
+<p>Now, we add another job that we want to start at the same time as <code class="docutils literal notranslate"><span class="pre">job_1</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">job_4</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_4.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add_start_job</span><span class="p">(</span><span class="n">job_4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If we would the submit the pipeline as it currently is <code class="docutils literal notranslate"><span class="pre">job_1</span></code> and <code class="docutils literal notranslate"><span class="pre">`job_4</span></code> would start immediatly.
+Once <code class="docutils literal notranslate"><span class="pre">job_1</span></code> finished, <code class="docutils literal notranslate"><span class="pre">job_2</span></code> will start running.
+If <code class="docutils literal notranslate"><span class="pre">job_1</span></code> has finished successfully <code class="docutils literal notranslate"><span class="pre">job_3</span></code> will run as well.</p>
+<p>Now, lets add a final bit of complexity, if <code class="docutils literal notranslate"><span class="pre">job_4</span></code> finishes successfully we want
+two other jobs to start.
+If it fails we have one other job that we want to start.</p>
+<p>First lets create the jobs:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">job_5</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_5.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_6</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_6.sh&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">job_7</span> <span class="o">=</span> <span class="n">slurmpy</span><span class="o">.</span><span class="n">Job</span><span class="p">(</span><span class="s2">&quot;slurm_script_7.sh&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we add them to the pipeline:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">add</span><span class="p">({</span><span class="s2">&quot;afterok&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">job_5</span><span class="p">,</span> <span class="n">job_6</span><span class="p">],</span> <span class="s2">&quot;afternotok&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">job_7</span><span class="p">]},</span> <span class="n">parent_job</span><span class="o">=</span><span class="n">job_4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and finally we want the pipeline to start:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pipeline</span><span class="o">.</span><span class="n">submit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">job_5</span></code> and <code class="docutils literal notranslate"><span class="pre">job_6</span></code> will now start if <code class="docutils literal notranslate"><span class="pre">job_4</span></code> finished successfully.
+Otherwise, <code class="docutils literal notranslate"><span class="pre">job_7</span></code> will start.</p>
+<p>For the full functionality, please see <a class="reference internal" href="slurmpy.html#slurmpy.slurmpy.Pipeline" title="slurmpy.slurmpy.Pipeline"><code class="xref py py-class docutils literal notranslate"><span class="pre">slurmpy.slurmpy.Pipeline</span></code></a>.
+For the different dependency types please check out the SLURM documentation: <a class="reference external" href="https://slurm.schedmd.com/sbatch.html">https://slurm.schedmd.com/sbatch.html</a></p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="slurmpy.html" class="btn btn-neutral float-right" title="slurmpy package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Sebastian van der Voort
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
