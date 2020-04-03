@@ -10,3 +10,7 @@ Python library to interact with [SLURM](https://slurm.schedmd.com/documentation.
 ## Documentation
 
 Documentation can be found on [read the docs](https://slurmpie.readthedocs.io/en/stable/)
+
+## Tests
+
+Tests can be found in the tests/ folder and can be run using pytest after installing the requirements in tests/requirements.txt
