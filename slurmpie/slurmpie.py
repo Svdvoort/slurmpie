@@ -12,6 +12,7 @@ class Job:
     def __init__(
         self,
         script: str,
+        script_is_file: bool = True,
         array: Union[str, list] = [],
         cpus_per_task: int = -1,
         error_file: str = "",
@@ -33,6 +34,8 @@ class Job:
 
         Args:
             script (str): The script file or command which the job should execute.
+            script_is_file (bool): If the script string is a command to execute directly instead
+             of a bash script, set this to False. Defaults to True.
             array (list or str, optional): Optional array parameters to launch multiple jobs.
              When a list is provided a job will be executed with each parameters in the list.
              A string can be provided to allow array construction in the SLURM format.
@@ -70,6 +73,7 @@ class Job:
         self._id = next(Job._newid)
 
         self.script = script
+        self.script_is_file = script_is_file
 
         self.array = array
         self.cpus_per_task = cpus_per_task
@@ -358,7 +362,11 @@ class Job:
             attribute_value = getattr(self, attribute_name)
             if not self.attribute_is_empty(attribute_value):
                 command.append("--{}={}".format(bash_argument, attribute_value))
-        command.append(self.script)
+
+        if self.script_is_file:
+            command.append(self.script)
+        else:
+            command.append("--wrap={}".format(self.script))
 
         return command
 
