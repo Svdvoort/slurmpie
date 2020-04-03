@@ -3,8 +3,7 @@ import subprocess
 from typing import Union, Dict, Tuple
 import numbers
 import itertools
-
-import numpy as np
+import math
 
 
 class Job:
@@ -181,7 +180,7 @@ class Job:
 
         # Memory size has to be an int
         # We fix this for the user if they specify a float
-        memory_size = str(int(np.ceil(memory_size)))
+        memory_size = str(int(math.ceil(memory_size)))
 
         return memory_size, memory_units
 
