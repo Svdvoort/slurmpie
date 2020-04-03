@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="slurmpie",
-    version="0.1.7",
+    version="0.2.0",
     author="Sebastian van der Voort",
     author_email="svoort25@gmail.com",
     description="Package to interact with SLURM",
