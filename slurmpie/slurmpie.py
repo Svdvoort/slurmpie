@@ -487,7 +487,7 @@ class Pipeline:
                 for attribute_name, attribute_value in self.job_args.items():
                     if i_job.attribute_is_empty(getattr(i_job, attribute_name)):
                         setattr(i_job, attribute_name, attribute_value)
-                if self.common_job_header is not None:
+                if self.common_job_header is not None and not i_job.script_is_file:
                     i_job.script = self.common_job_header + " " + i_job.script
 
                 self.pipeline_jobs.append(i_job)
