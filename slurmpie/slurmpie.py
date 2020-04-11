@@ -408,7 +408,7 @@ class Pipeline:
 
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, common_job_header=None, **kwargs):
         """
         Pipeline to be constructed with multiple jobs depending on each other.
 
@@ -419,6 +419,8 @@ class Pipeline:
         different jobs.
 
         Args:
+            common_job_header (str): In case the command to execute is
+             direct command (not a file), this will be prepended to every job.
             kwargs: Arguments that will be specified for each job,
              if that argument has not been set for the job already.
         """
@@ -426,6 +428,7 @@ class Pipeline:
         self.job_args = kwargs
         self.pipeline_jobs = list()
         self._job_graph = {-1: []}
+        self.common_job_header = common_job_header
 
     def _update_job_graph(self, parent_id: str, jobs: dict):
         """
@@ -484,6 +487,8 @@ class Pipeline:
                 for attribute_name, attribute_value in self.job_args.items():
                     if i_job.attribute_is_empty(getattr(i_job, attribute_name)):
                         setattr(i_job, attribute_name, attribute_value)
+                if self.common_job_header is not None:
+                    i_job.script = self.common_job_header + " " + i_job.script
 
                 self.pipeline_jobs.append(i_job)
 
