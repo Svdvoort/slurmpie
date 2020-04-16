@@ -1,9 +1,10 @@
-import re
-import subprocess
-from typing import Union, Dict, Tuple
-import numbers
 import itertools
 import math
+import numbers
+import os
+import re
+import subprocess
+from typing import Dict, Tuple, Union
 
 
 class Job:
@@ -547,3 +548,25 @@ class Pipeline:
             raise RecursionError(
                 "You have set impossible to execute job dependencies!\nPlease check your pipeline."
             )
+
+class System:
+    def __init__(self):
+        """
+        Get system information of the SLURM cluster
+        """
+
+    def get_job_memory(self) -> Union[int, None]:
+        """
+        Get the memory available to the job
+
+        Returns:
+            int or None: The memory size in kilobytes, None if the SLURM
+             memory amount cannot be determined
+        """
+        if "SLURM_MEM_PER_NODE" in os.environ:
+            memory_size = int(os.environ["SLURM_MEM_PER_NODE"])
+        else:
+            memory_size = None
+
+        return memory_size
+
