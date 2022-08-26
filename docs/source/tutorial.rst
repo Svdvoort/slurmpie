@@ -149,3 +149,39 @@ Otherwise, ``job_7`` will start.
 For the full functionality, please see :py:class:`slurmpie.slurmpie.Pipeline`.
 For the different dependency types please check out the SLURM documentation: https://slurm.schedmd.com/sbatch.html
 
+Running jobs in parallel
+*************************
+
+Certain jobs in a pipeline might not be dependent on each other, but instead can be run in parallel.
+In this example, we assume that there is a job ``job_1``, on which two other jobs are dependent: ``job_2`` and ``job_3``.
+Once ``job_1`` successfully finished, ``job_2`` and ``job_3`` can be run in parallel, they do not depend on each other.
+
+This can be configured as follows:
+
+>>> from slurmpie import slurmpie
+>>> job_1 = slurmpie.Job("slurm_script_1.sh")
+>>> job_2 = slurmpie.Job("slurm_script_2.sh")
+>>> job_3 = slurmpie.Job("slurm_script_3.sh")
+>>> pipeline.add(job_1)
+>>> pipeline.add({"afterok": [job_2]}, parent_job=job_1)
+>>> pipeline.add({"afterok": [job_3]}, parent_job=job_1)
+
+Now once ``job_1`` finished running, ``job_2`` and ``job_3`` will run independent of each other.
+
+Job with multiple parent jobs
+*************************
+
+Sometimes jobs might have multiple parents jobs.
+For example, in a previous step of the pipeline jobs were run in parallel, but all of those jobs need to be finished before the next job can launch.
+In the following example we have ``job_1`` and ``job_2`` that will run in parallel from the start, and ``job_3`` that needs to wait for those of those jobs to successfully finish.
+
+>>> from slurmpie import slurmpie
+>>> job_1 = slurmpie.Job("slurm_script_1.sh")
+>>> job_2 = slurmpie.Job("slurm_script_2.sh")
+>>> job_3 = slurmpie.Job("slurm_script_3.sh")
+>>> pipeline.add(job_1)
+>>> # We need to specify job_1 as parent_job, and specify just "after" to make job_1 and job_2 run in parallel
+>>> pipeline.add({"after": [job_2]}, parent_job=job_1)
+>>> pipeline.add({"afterok": [job_3]}, parent_job=[job_1, job2])
+
+By providing a list of the parent jobs, ``job_3`` will wait for all of them to finish before processing.

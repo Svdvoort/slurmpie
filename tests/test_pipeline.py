@@ -125,6 +125,30 @@ def test_complex_job_adding():
         final_job: {"afterany": [second_succes_job._id]}
     }
 
+def test_multiple_parent_jobs():
+    start_job = slurmpie.Job("none")
+    parent_job_1 = slurmpie.Job("none")
+    parent_job_2 = slurmpie.Job("none")
+    pipeline = slurmpie.Pipeline()
+
+    pipeline.add(start_job)
+    pipeline.add({"after": [parent_job_1]}, parent_job=start_job)
+    pipeline.add({"after": [parent_job_2]}, parent_job=start_job)
+
+    job_with_two_parents = slurmpie.Job("none")
+    pipeline.add({"after": [job_with_two_parents]}, parent_job=[parent_job_1, parent_job_2])
+
+    print("bla")
+    # second_start_job = slurmpie.Job("none")
+    # pipeline.add_start_job(second_start_job)
+
+    # assert pipeline._job_graph == {
+    #     -1: [job, second_start_job],
+    #     success_job: {"afterany": [job._id]},
+    # }
+
+
+
 # These tests only work when slurm is installed
 
 # def test_submit():

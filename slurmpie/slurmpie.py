@@ -443,7 +443,7 @@ class Pipeline:
         if parent_id == -1:
             self._job_graph[parent_id].extend(list(itertools.chain(*jobs.values())))
         else:
-            if isinstance(parent_id, str):
+            if isinstance(parent_id, str) or isinstance(parent_id, int):
                 parent_id = [parent_id]
             for i_key, i_value in jobs.items():
                 for i_job in i_value:
@@ -469,8 +469,8 @@ class Pipeline:
             jobs (Job or dict): The jobs to add to the pipeline. Either a single job
              which will be added to the end of the pipeline, or a dict specifying the
              dependency type and a list with the dependent jobs
-            parent_job (Job, optional): If not None, will use this as the job on which the
-             `jobs` are dependent. Defaults to None.
+            parent_job (Job or list, optional): If not None, will use this as the job on which the
+             `jobs` are dependent, a list in case of multiple parent jobs. Defaults to None.
         """
 
         # We accept a single job as ease-of-use for the user
