@@ -490,6 +490,9 @@ class Pipeline:
 
         for i_job_dependency_type, i_job_list in jobs.items():
             for i_job in i_job_list:
+                # Set arguments from the pipeline if the job does not have them
+                # If the job does have them, they take precedence over what is defined
+                # in the pipeline.
                 for attribute_name, attribute_value in self.job_args.items():
                     if i_job.attribute_is_empty(getattr(i_job, attribute_name)):
                         setattr(i_job, attribute_name, attribute_value)
