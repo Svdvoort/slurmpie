@@ -19,6 +19,7 @@ class Job:
         error_file: str = "",
         gpus: dict = {},
         gres: dict = {},
+        logfile_directory: str = "",
         mail_address: str = "",
         mail_type: str = "",
         memory_size: Union[str, int] = "",
@@ -45,6 +46,8 @@ class Job:
             gpus (dict, optional): Specify the gpu requirements for the job. See also gres.
             gres (dict, optional): Specify the gres requirements for the jobs.
              See :func:`slurmpie.slurmpie.Job.gres` for the full specification.
+            logfile_directory (str, optional): Set a base directory for the output and error files.
+             If this is set, the full paths don't have to be specified for error_file and output_file
             mail_address (str, optional): Mail address to send notifications to.
             mail_type (str, optional): Specify for which events a notification should be send.
              One of: NONE, BEGIN, END, FAIL, REQUEUE, ALL
@@ -79,13 +82,19 @@ class Job:
         self.array = array
         self.cpus_per_task = cpus_per_task
         self.dependencies = ""
-        self.error_file = error_file
+        if logfile_directory == "":
+            self.error_file = error_file
+        else:
+            self.error_file = os.path.join(logfile_directory, error_file)
         self.gpus = gpus
         self.gres = gres
         self.mail_address = mail_address
         self.name = name
         self.nodes = nodes
-        self.output_file = output_file
+        if logfile_directory == "":
+            self.output_file = output_file
+        else:
+            self.output_file = os.path.join(logfile_directory, output_file)
         self.partition = partition
         self.tasks = tasks
         self.time = time
