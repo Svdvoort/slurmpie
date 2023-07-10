@@ -4,7 +4,7 @@ import numbers
 import os
 import re
 import subprocess
-from typing import Dict, Tuple, Union
+from typing import Dict, Tuple, Union, List
 
 
 class Job:
@@ -25,6 +25,7 @@ class Job:
         memory_size: Union[str, int] = "",
         name: str = "",
         nodes: int = -1,
+        nodelist: list = [],
         output_file: str = "",
         partition: str = "",
         tasks: int = -1,
@@ -55,6 +56,7 @@ class Job:
              See :func:`slurmpie.slurmpie.Job.memory_size` for the specification.
             name (str, optional): The name of the job.
             nodes (int, optional): Number of nodes to use for the job.
+            nodelist (list): request a specific list of hosts
             output_file (str, optional): File path for the slurm output file.
             partition (str, optional): Name of the partition to which to submit the job.
             tasks (int, optional): Number of tasks.
@@ -361,6 +363,7 @@ class Job:
             "tasks": "ntasks",
             "time": "time",
             "workdir": "chdir",
+            "nodelist": None
         }
 
         # We set parsable to easily get job id
@@ -370,7 +373,7 @@ class Job:
             command_mapping.items(), key=lambda x: x[0].lower()
         ):
             attribute_value = getattr(self, attribute_name)
-            if not self.attribute_is_empty(attribute_value):
+            if not self.attribute_is_empty(attribute_value) and bash_argument:
                 command.append("--{}={}".format(bash_argument, attribute_value))
 
         if self.script_is_file:
