@@ -25,7 +25,7 @@ class Job:
         memory_size: Union[str, int] = "",
         name: str = "",
         nodes: int = -1,
-        nodelist: str = [],
+        nodelist: str = "",
         output_file: str = "",
         partition: str = "",
         tasks: int = -1,
