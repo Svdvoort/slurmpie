@@ -4,7 +4,7 @@ import numbers
 import os
 import re
 import subprocess
-from typing import Dict, Tuple, Union
+from typing import Dict, Tuple, Union, List
 
 
 class Job:
@@ -25,6 +25,7 @@ class Job:
         memory_size: Union[str, int] = "",
         name: str = "",
         nodes: int = -1,
+        nodelist: str = "",
         output_file: str = "",
         partition: str = "",
         tasks: int = -1,
@@ -55,6 +56,7 @@ class Job:
              See :func:`slurmpie.slurmpie.Job.memory_size` for the specification.
             name (str, optional): The name of the job.
             nodes (int, optional): Number of nodes to use for the job.
+            nodelist (str, optional): Request specific host nodes for job.
             output_file (str, optional): File path for the slurm output file.
             partition (str, optional): Name of the partition to which to submit the job.
             tasks (int, optional): Number of tasks.
@@ -75,6 +77,7 @@ class Job:
         self._memory_size = ""
         self._memory_units = None
         self._id = next(Job._newid)
+        self._nodelist = ""
 
         self.script = script
         self.script_is_file = script_is_file
@@ -299,6 +302,23 @@ class Job:
         self._array = self._format_argument_list(self._array, array_spec)
 
     @property
+    def nodelist(self) -> str:
+        """
+        List of nodes to run the job on.
+
+        When you want to run a job on a specific node (that is not specified by a queue),
+        you can use this argument to specify the exact nodes you want to run
+        the job on.
+        """
+
+        return self._nodelist
+
+    @nodelist.setter
+    def nodelist(self, nodelist_spec: str):
+        self._nodelist = nodelist_spec
+
+
+    @property
     def gpus(self) -> str:
         """
         The gpus to request from the SLURM jobs.
@@ -361,6 +381,7 @@ class Job:
             "tasks": "ntasks",
             "time": "time",
             "workdir": "chdir",
+            "nodelist": "nodelist"
         }
 
         # We set parsable to easily get job id
