@@ -422,9 +422,14 @@ class Job:
 
         stdout, stderr = sbatch_process.communicate()
 
-        if sbatch_process.returncode != 0:
-            err_msg = "Sbatch job submission failed with follow error:\n{}"
-            raise RuntimeError(err_msg.format(stderr))
+        if sbatch_process.returncode != 0 or "error" in stdout.decode("utf-8").lower():
+            submitted_command = " ".join(sbatch_command)
+            err_msg = "Sbatch job submission failed with follow error:\n{msg}\nSubmitted using the following command:\n{submitted_command}"
+            raise RuntimeError(
+                err_msg.format(
+                    msg=stderr, sbatch_submitted_commandcommand=submitted_command
+                )
+            )
         else:
             job_number = stdout.decode("utf-8").strip().split(":")[0]
         return job_number
