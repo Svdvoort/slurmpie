@@ -317,7 +317,6 @@ class Job:
     def nodelist(self, nodelist_spec: str):
         self._nodelist = nodelist_spec
 
-
     @property
     def gpus(self) -> str:
         """
@@ -335,7 +334,9 @@ class Job:
         self._gpus = self._format_argument_list(self._gpus, self._format_gres(gpu_spec))
 
     @staticmethod
-    def attribute_is_empty(attribute_value: Union[str, numbers.Number, dict, list]) -> bool:
+    def attribute_is_empty(
+        attribute_value: Union[str, numbers.Number, dict, list]
+    ) -> bool:
         """
         Checks whether an attribute is empty
 
@@ -381,7 +382,7 @@ class Job:
             "tasks": "ntasks",
             "time": "time",
             "workdir": "chdir",
-            "nodelist": "nodelist"
+            "nodelist": "nodelist",
         }
 
         # We set parsable to easily get job id
@@ -424,7 +425,6 @@ class Job:
         if sbatch_process.returncode != 0:
             err_msg = "Sbatch job submission failed with follow error:\n{}"
             raise RuntimeError(err_msg.format(stderr))
-            job_number = None
         else:
             job_number = stdout.decode("utf-8").strip().split(":")[0]
         return job_number
@@ -484,7 +484,9 @@ class Pipeline:
                     else:
                         self._job_graph[i_job][i_key].extend(parent_id)
 
-    def add(self, jobs: Union[Job, Dict[str, list]], parent_job: Union[Job, list] = None):
+    def add(
+        self, jobs: Union[Job, Dict[str, list]], parent_job: Union[Job, list] = None
+    ):
         """
         Add dependency jobs to the pipeline.
 
@@ -587,6 +589,7 @@ class Pipeline:
                 "You have set impossible to execute job dependencies!\nPlease check your pipeline."
             )
 
+
 class System:
     def __init__(self):
         """
@@ -607,4 +610,3 @@ class System:
             memory_size = None
 
         return memory_size
-
