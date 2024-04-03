@@ -398,7 +398,7 @@ class Job:
         if self.script_is_file:
             command.append(self.script)
         else:
-            command.append('--wrap="{}"'.format(self.script))
+            command.append("--wrap='{}'".format(self.script))
 
         return command
 
