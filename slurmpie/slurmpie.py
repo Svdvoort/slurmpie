@@ -426,9 +426,7 @@ class Job:
             submitted_command = " ".join(sbatch_command)
             err_msg = "Sbatch job submission failed with follow error:\n{msg}\nSubmitted using the following command:\n{submitted_command}"
             raise RuntimeError(
-                err_msg.format(
-                    msg=stderr, sbatch_submitted_commandcommand=submitted_command
-                )
+                err_msg.format(msg=stderr, submitted_command=submitted_command)
             )
         else:
             job_number = stdout.decode("utf-8").strip().split(":")[0]
