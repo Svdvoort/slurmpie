@@ -357,12 +357,12 @@ class Job:
         else:
             return False
 
-    def _format_sbatch_command(self) -> list:
+    def _format_sbatch_command(self) -> str:
         """
         Formats the command for sbatch from the job settings.
 
         Returns:
-            list: Formatted command with one argument per item.
+            str: Formatted command.
         """
 
         command_mapping = {
@@ -400,7 +400,10 @@ class Job:
         else:
             command.append("--wrap='{}'".format(self.script))
 
-        return command
+        # It's better to have it as a list for Popen
+        # but then it doesn't work with the quotes for the --wrap
+        # so we provide it as a string.
+        return " ".join(command)
 
     def submit(self) -> str:
         """
@@ -417,7 +420,7 @@ class Job:
         # Perhaps a docker with slurm pre-installed is a good idea in this case
         sbatch_command = self._format_sbatch_command()
         sbatch_process = subprocess.Popen(
-            sbatch_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            sbatch_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
         )
 
         stdout, stderr = sbatch_process.communicate()
