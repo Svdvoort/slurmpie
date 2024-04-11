@@ -2,10 +2,15 @@ import pytest
 from slurmpie import slurmpie
 import os
 
-FIXTURE_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_data",)
+FIXTURE_DIR = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)),
+    "test_data",
+)
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_init(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -22,7 +27,9 @@ def test_init(datafiles):
     assert job.memory_size == "50G"
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_argument_list_formatting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -35,7 +42,9 @@ def test_argument_list_formatting(datafiles):
     assert job._format_argument_list("gpu:1,cpu:3", "ssd:4") == "gpu:1,cpu:3,ssd:4"
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_gres_formatting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -55,7 +64,10 @@ def test_gres_formatting(datafiles):
         == "cpu:15,gpu:k40:2,gpu:Titan:3,ssd:fast:2,ssd:slow:1"
     )
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_gres_settting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -83,7 +95,10 @@ def test_gres_settting(datafiles):
     job.gres = {"gpu": {"Titan": 3, "k40": 2}, "ssd": {"fast": 2, "slow": 1}, "cpu": 15}
     assert job.gres == "cpu:15,gpu:k40:2,gpu:Titan:3,ssd:fast:2,ssd:slow:1"
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_memory_formatting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -105,7 +120,9 @@ def test_memory_formatting(datafiles):
     assert memory_units is None
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_memory_setting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -124,7 +141,9 @@ def test_memory_setting(datafiles):
     assert job.memory_units is None
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_job_dependencies(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -157,7 +176,9 @@ def test_job_dependencies(datafiles):
     assert job.dependencies == "afterok:1001:9040294,afternotok:123,afterok:987"
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_array_setting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -176,22 +197,26 @@ def test_array_setting(datafiles):
     assert job.array == "0-15%4"
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_gpu_setting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
     assert job.gpus == ""
 
     job = slurmpie.Job(script_file)
-    job.gpus = {'Titan': 5}
+    job.gpus = {"Titan": 5}
     assert job.gpus == "Titan:5"
 
     job = slurmpie.Job(script_file)
-    job.gpus = {'Titan': 5, "k40": "3"}
+    job.gpus = {"Titan": 5, "k40": "3"}
     assert job.gpus == "k40:3,Titan:5"
 
 
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_empty_attributes(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
@@ -207,46 +232,81 @@ def test_empty_attributes(datafiles):
     assert not job.attribute_is_empty([-1])
 
 
-
-@pytest.mark.datafiles(os.path.join(FIXTURE_DIR, "slurm_script.sh"),)
+@pytest.mark.datafiles(
+    os.path.join(FIXTURE_DIR, "slurm_script.sh"),
+)
 def test_sbatch_formatting(datafiles):
     script_file = str(datafiles)
     job = slurmpie.Job(script_file)
 
     sbatch_command = job._format_sbatch_command()
-    assert sbatch_command == ["sbatch", "--parsable", script_file]
+    assert sbatch_command == " ".join(["sbatch", "--parsable", script_file])
 
     job.memory_size = 50
 
     sbatch_command = job._format_sbatch_command()
-    assert sbatch_command == ["sbatch", "--parsable", "--mem=50", script_file]
+    assert sbatch_command == " ".join(["sbatch", "--parsable", "--mem=50", script_file])
 
     job.gres = {"gpu": {"Titan": 1, "k40": 2}}
 
-    assert job._format_sbatch_command() == ["sbatch", "--parsable", "--gres=gpu:k40:2,gpu:Titan:1", "--mem=50", script_file]
+    assert job._format_sbatch_command() == " ".join(
+        [
+            "sbatch",
+            "--parsable",
+            "--gres=gpu:k40:2,gpu:Titan:1",
+            "--mem=50",
+            script_file,
+        ]
+    )
 
     job = slurmpie.Job(script_file, memory_size="100GB", name="test_job")
-    assert job._format_sbatch_command() == ["sbatch", "--parsable", "--mem=100G", "--job-name=test_job", script_file]
+    assert job._format_sbatch_command() == " ".join(
+        [
+            "sbatch",
+            "--parsable",
+            "--mem=100G",
+            "--job-name=test_job",
+            script_file,
+        ]
+    )
 
-    job = slurmpie.Job(script_file, array=[1, 2, 3], cpus_per_task=5, error_file="/tmp/error.log", gpus={'Titan':8},
-    gres={'cpus': {'haskell':2, 'lake': "3"}}, mail_address="user@example.com", mail_type="FAIL", memory_size="10KB",
-    name="test_job", nodes=4, output_file="/tmp/output.log", partition="test_partition", tasks=7, time="01:33",
-    workdir="/tmp/workdir")
-    assert job._format_sbatch_command() == ["sbatch",
-                                            "--parsable",
-                                            "--array=1,2,3",
-                                            "--cpus-per-task=5",
-                                            "--error=/tmp/error.log",
-                                            "--gpus=Titan:8",
-                                            "--gres=cpus:haskell:2,cpus:lake:3",
-                                            "--mail-user=user@example.com",
-                                            "--mail-type=FAIL",
-                                            "--mem=10K",
-                                            "--job-name=test_job",
-                                            "--nodes=4",
-                                            "--output=/tmp/output.log",
-                                            "--partition=test_partition",
-                                            "--ntasks=7",
-                                            "--time=01:33",
-                                            "--chdir=/tmp/workdir",
-                                            script_file]
+    job = slurmpie.Job(
+        script_file,
+        array=[1, 2, 3],
+        cpus_per_task=5,
+        error_file="/tmp/error.log",
+        gpus={"Titan": 8},
+        gres={"cpus": {"haskell": 2, "lake": "3"}},
+        mail_address="user@example.com",
+        mail_type="FAIL",
+        memory_size="10KB",
+        name="test_job",
+        nodes=4,
+        output_file="/tmp/output.log",
+        partition="test_partition",
+        tasks=7,
+        time="01:33",
+        workdir="/tmp/workdir",
+    )
+    assert job._format_sbatch_command() == " ".join(
+        [
+            "sbatch",
+            "--parsable",
+            "--array=1,2,3",
+            "--cpus-per-task=5",
+            "--error=/tmp/error.log",
+            "--gpus=Titan:8",
+            "--gres=cpus:haskell:2,cpus:lake:3",
+            "--mail-user=user@example.com",
+            "--mail-type=FAIL",
+            "--mem=10K",
+            "--job-name=test_job",
+            "--nodes=4",
+            "--output=/tmp/output.log",
+            "--partition=test_partition",
+            "--ntasks=7",
+            "--time=01:33",
+            "--chdir=/tmp/workdir",
+            script_file,
+        ]
+    )
