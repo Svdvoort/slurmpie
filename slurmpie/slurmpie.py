@@ -467,7 +467,7 @@ class Pipeline:
         self._job_graph = {-1: []}
         self.common_job_header = common_job_header
 
-    def _update_job_graph(self, parent_id: Union[str, list], jobs: dict):
+    def _update_job_graph(self, parent_id: Union[str, list, int], jobs: dict):
         """
         Add new jobs to the graph to execute.
 
@@ -476,8 +476,10 @@ class Pipeline:
             jobs (dict): Jobs that depend on the parent job, with specified dependency type.
         """
 
-        if parent_id == -1:
+        if isinstance(parent_id, int) and parent_id == -1:
             self._job_graph[parent_id].extend(list(itertools.chain(*jobs.values())))
+        elif isinstance(parent_id, list) and parent_id[0] == -1:
+            self._job_graph[parent_id[0]].extend(list(itertools.chain(*jobs.values())))
         else:
             if isinstance(parent_id, str) or isinstance(parent_id, int):
                 parent_id = [parent_id]
@@ -491,7 +493,7 @@ class Pipeline:
                         self._job_graph[i_job][i_key].extend(parent_id)
 
     def add(
-        self, jobs: Union[Job, Dict[str, list]], parent_job: Union[Job, list] = None
+        self, jobs: Union[Job, Dict[str, list]], parent_job: Union[Job, list, None] = None
     ):
         """
         Add dependency jobs to the pipeline.
@@ -518,13 +520,13 @@ class Pipeline:
 
         if parent_job is not None:
             if isinstance(parent_job, Job):
-                parent_id = parent_job._id
+                parent_id = [parent_job._id]
             elif isinstance(parent_job, list):
-                parent_id = [i_parent_job._id for i_parent_job in parent_job]
+                parent_id = [i_parent_job._id for i_parent_job in parent_job if i_parent_job is not None]
         elif len(self.pipeline_jobs) > 0:
             parent_id = self.pipeline_jobs[-1]._id
         else:
-            parent_id = -1
+            parent_id = [-1]
 
         for i_job_dependency_type, i_job_list in jobs.items():
             for i_job in i_job_list:

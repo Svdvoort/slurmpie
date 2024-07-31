@@ -125,27 +125,44 @@ def test_complex_job_adding():
         final_job: {"afterany": [second_succes_job._id]}
     }
 
-def test_multiple_parent_jobs():
-    start_job = slurmpie.Job("none")
+def test_multiple_parent_job_with_none():
+    child_job = slurmpie.Job("none")
     parent_job_1 = slurmpie.Job("none")
-    parent_job_2 = slurmpie.Job("none")
+    parent_job_2 = None
     pipeline = slurmpie.Pipeline()
 
-    pipeline.add(start_job)
-    pipeline.add({"after": [parent_job_1]}, parent_job=start_job)
-    pipeline.add({"after": [parent_job_2]}, parent_job=start_job)
+    pipeline.add_start_job(parent_job_1)
+    pipeline.add({"afterok": [child_job]}, parent_job=[parent_job_1, parent_job_2])
 
-    job_with_two_parents = slurmpie.Job("none")
-    pipeline.add({"after": [job_with_two_parents]}, parent_job=[parent_job_1, parent_job_2])
+    assert pipeline._job_graph == {
+        -1: [parent_job_1],
+        child_job: {"afterok": [parent_job_1._id]},
+    }
 
-    print("bla")
-    # second_start_job = slurmpie.Job("none")
-    # pipeline.add_start_job(second_start_job)
 
-    # assert pipeline._job_graph == {
-    #     -1: [job, second_start_job],
-    #     success_job: {"afterany": [job._id]},
-    # }
+
+
+
+# def test_multiple_parent_jobs():
+#     start_job = slurmpie.Job("none")
+#     parent_job_1 = slurmpie.Job("none")
+#     parent_job_2 = slurmpie.Job("none")
+#     pipeline = slurmpie.Pipeline()
+
+#     pipeline.add(start_job)
+#     pipeline.add({"after": [parent_job_1]}, parent_job=start_job)
+#     pipeline.add({"after": [parent_job_2]}, parent_job=start_job)
+
+#     job_with_two_parents = slurmpie.Job("none")
+#     pipeline.add({"after": [job_with_two_parents]}, parent_job=[parent_job_1, parent_job_2])
+
+#     second_start_job = slurmpie.Job("none")
+#     pipeline.add_start_job(second_start_job)
+
+#     assert pipeline._job_graph == {
+#         -1: [job, second_start_job],
+#         success_job: {"afterany": [job._id]},
+#     }
 
 
 
