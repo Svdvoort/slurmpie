@@ -17,6 +17,7 @@ class Job:
         array: Union[str, list] = [],
         cpus_per_task: int = -1,
         error_file: str = "",
+        exclude: Union[str, list] = [],
         gpus: dict = {},
         gres: dict = {},
         logfile_directory: str = "",
@@ -44,6 +45,7 @@ class Job:
              A string can be provided to allow array construction in the SLURM format.
             cpus_per_task (int, optional): Number of cpus for each task.
             error_file (str, optional): File path for the slurm error file.
+            exclude (list or str, optional): Nodes to exclude from the job request.
             gpus (dict, optional): Specify the gpu requirements for the job. See also gres.
             gres (dict, optional): Specify the gres requirements for the jobs.
              See :func:`slurmpie.slurmpie.Job.gres` for the full specification.
@@ -78,6 +80,7 @@ class Job:
         self._memory_units = None
         self._id = next(Job._newid)
         self._nodelist = ""
+        self._exclude = ""
 
         self.script = script
         self.script_is_file = script_is_file
@@ -110,6 +113,11 @@ class Job:
 
         if memory_size != "":
             self.memory_size = memory_size
+
+        if nodelist != "":
+            self.nodelist = nodelist
+
+        self.exclude = exclude
 
     @staticmethod
     def _format_argument_list(argument_value: str, to_add_argument_values: str) -> str:
@@ -318,6 +326,19 @@ class Job:
         self._nodelist = nodelist_spec
 
     @property
+    def exclude(self) -> str:
+        """Nodes to exclude from job."""
+
+        return self._exclude
+
+    @exclude.setter
+    def exclude(self, exclude_spec: Union[list, str]):
+        if isinstance(exclude_spec, list):
+            exclude_spec = ",".join(exclude_spec)
+
+        self._exclude = exclude_spec
+
+    @property
     def gpus(self) -> str:
         """
         The gpus to request from the SLURM jobs.
@@ -335,7 +356,7 @@ class Job:
 
     @staticmethod
     def attribute_is_empty(
-        attribute_value: Union[str, numbers.Number, dict, list]
+        attribute_value: Union[str, numbers.Number, dict, list],
     ) -> bool:
         """
         Checks whether an attribute is empty
@@ -383,6 +404,7 @@ class Job:
             "time": "time",
             "workdir": "chdir",
             "nodelist": "nodelist",
+            "exclude": "exclude",
         }
 
         # We set parsable to easily get job id
@@ -493,7 +515,9 @@ class Pipeline:
                         self._job_graph[i_job][i_key].extend(parent_id)
 
     def add(
-        self, jobs: Union[Job, Dict[str, list]], parent_job: Union[Job, list, None] = None
+        self,
+        jobs: Union[Job, Dict[str, list]],
+        parent_job: Union[Job, list, None] = None,
     ):
         """
         Add dependency jobs to the pipeline.
@@ -522,7 +546,11 @@ class Pipeline:
             if isinstance(parent_job, Job):
                 parent_id = [parent_job._id]
             elif isinstance(parent_job, list):
-                parent_id = [i_parent_job._id for i_parent_job in parent_job if i_parent_job is not None]
+                parent_id = [
+                    i_parent_job._id
+                    for i_parent_job in parent_job
+                    if i_parent_job is not None
+                ]
         elif len(self.pipeline_jobs) > 0:
             parent_id = self.pipeline_jobs[-1]._id
         else:

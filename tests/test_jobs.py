@@ -282,12 +282,15 @@ def test_sbatch_formatting(datafiles):
         memory_size="10KB",
         name="test_job",
         nodes=4,
+        nodelist="cpu001",
+        exclude=["gpu001", "mem001"],
         output_file="/tmp/output.log",
         partition="test_partition",
         tasks=7,
         time="01:33",
         workdir="/tmp/workdir",
     )
+
     assert job._format_sbatch_command() == " ".join(
         [
             "sbatch",
@@ -295,12 +298,14 @@ def test_sbatch_formatting(datafiles):
             "--array=1,2,3",
             "--cpus-per-task=5",
             "--error=/tmp/error.log",
+            "--exclude=gpu001,mem001",
             "--gpus=Titan:8",
             "--gres=cpus:haskell:2,cpus:lake:3",
             "--mail-user=user@example.com",
             "--mail-type=FAIL",
             "--mem=10K",
             "--job-name=test_job",
+            "--nodelist=cpu001",
             "--nodes=4",
             "--output=/tmp/output.log",
             "--partition=test_partition",
